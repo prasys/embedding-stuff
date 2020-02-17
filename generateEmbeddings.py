@@ -86,4 +86,5 @@ if __name__ == '__main__':
 	# CommentList = df['Comment'].tolist() # pick the item/column that we want to do BERT embeddings
 	print("Start Embedding Service Client")
 	randomSentence = commentList[1] #takes a random sentence , well not really :P
-	generateEmbeddings(model,CommentList,randomSentence)
+	doclength = generateEmbeddings(model,CommentList,randomSentence)
+	print(doclength.shape)
