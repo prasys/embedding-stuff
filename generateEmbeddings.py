@@ -37,9 +37,8 @@ def generateEmbeddings(document_embeddings,texts):
 		
 	
 	output = np.vstack(listOfArray)
-	print(output.shape)
 
-	return -1
+	return output
 
 def read_csv(filepath):
 	df_chunk = pd.read_csv(filepath, sep=',', header=0,encoding = "utf-8")
@@ -60,6 +59,9 @@ def getDocumentModel(text):
 	embeddingModel = pickModel(text)
 	DocumentEmbedding = DocumentPoolEmbeddings([embeddingModel])
 	return DocumentEmbedding
+
+def saveNumpyArray(array,fileName):
+	np.save(fileName,array)
 
 
 if __name__ == '__main__':
@@ -93,5 +95,5 @@ if __name__ == '__main__':
 	# CommentList = df['Comment'].tolist() # pick the item/column that we want to do BERT embeddings
 	print("Start Embedding Service Client")
 	# randomSentence = CommentList[1] #takes a random sentence , well not really :P
-	doclength = generateEmbeddings(model,CommentList)
-	print(doclength.shape)
+	arrayOutput = generateEmbeddings(model,CommentList)
+	saveNumpyArray(arrayOutput,outPutFileName)
