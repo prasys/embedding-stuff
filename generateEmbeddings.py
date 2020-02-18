@@ -13,6 +13,7 @@ from flair.embeddings import ELMoEmbeddings
 from flair.embeddings import TransformerXLEmbeddings
 from flair.embeddings import OpenAIGPTEmbeddings
 from flair.embeddings import OpenAIGPT2Embeddings
+from flair.embeddings import DocumentPoolEmbeddings
 from flair.data import Sentence
 from flair.models import SequenceTagger
 from tqdm import tqdm ## tracks progress of loop ##
