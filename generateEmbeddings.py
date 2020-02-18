@@ -25,17 +25,21 @@ from tqdm import tqdm ## tracks progress of loop ##
 #     return texts
 
 
-def generateEmbeddings(document_embeddings,texts,testSentence):
-	embedSize = testSentence.embedding.size()[1] 
-	tensorSize = torch.zeros(0,embedSize)
+def generateEmbeddings(document_embeddings,texts):
+	listOfArray = []
+
 	for text in texts:
 		sentence = Sentence(text)
 		document_embeddings.embed(sentence)
-		tensorSize = torch.cat((tensorSize, sentence.embedding.view(-1,embedSize)),0)
+		documentEmbed = sentence.get_embedding()
+		documentEmbed = documentEmbed.cpu().detach().numpy()
+		listOfArray.append(documentEmbed)
+		
 	
-	tensorSize = tensorSize.numpy()
+	output = np.vstack(listOfArray)
+	print(output.shape)
 
-	return tensorSize
+	return -1
 
 def read_csv(filepath):
 	df_chunk = pd.read_csv(filepath, sep=',', header=0,encoding = "utf-8")
@@ -52,11 +56,10 @@ def pickModel(text):
 	return model.get(text,-1)
 
 def getDocumentModel(text):
+	# embeddingModel = ELMoEmbeddings()
 	embeddingModel = pickModel(text)
-	DocumentEmbedding = DocumentPoolEmbeddings(embeddingModel)
+	DocumentEmbedding = DocumentPoolEmbeddings([embeddingModel])
 	return DocumentEmbedding
-
-
 
 
 if __name__ == '__main__':
@@ -81,14 +84,14 @@ if __name__ == '__main__':
 	# 	print("UNDEFINED FILE NAME , PLEASE DEFINE FILE NAME TO BE PROCESSED")
 	# 	exit() #force exit
 
-	if len(sys.argv[4]) > 1: #output name
-		outPutFileName = sys.argv[4]
+	if len(sys.argv[3]) > 1: #output name
+		outPutFileName = sys.argv[3]
 	else:
 		print("UNDEFINED FILE NAME , PLEASE DEFINE FILE NAME TO BE PROCESSED")
 		exit() #force exit		
 	
 	# CommentList = df['Comment'].tolist() # pick the item/column that we want to do BERT embeddings
 	print("Start Embedding Service Client")
-	randomSentence = commentList[1] #takes a random sentence , well not really :P
-	doclength = generateEmbeddings(model,CommentList,randomSentence)
+	# randomSentence = CommentList[1] #takes a random sentence , well not really :P
+	doclength = generateEmbeddings(model,CommentList)
 	print(doclength.shape)
