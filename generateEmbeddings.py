@@ -3,6 +3,7 @@ import pandas as pd
 import flair
 import torch
 import numpy as np
+import sys
 from flair.embeddings import WordEmbeddings
 from flair.embeddings import CharacterEmbeddings
 from flair.embeddings import StackedEmbeddings
@@ -12,6 +13,8 @@ from flair.embeddings import ELMoEmbeddings
 from flair.embeddings import TransformerXLEmbeddings
 from flair.embeddings import OpenAIGPTEmbeddings
 from flair.embeddings import OpenAIGPT2Embeddings
+from flair.data import Sentence
+from flair.models import SequenceTagger
 from tqdm import tqdm ## tracks progress of loop ##
 
 
